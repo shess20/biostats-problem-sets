@@ -1,0 +1,115 @@
+---
+title: "Problem Set 2"
+author: "Sierra Hess"
+output: html_document
+---
+
+# Problem Set 2 
+
+# Clear the decks
+```{r}
+rm(list = ls())
+```
+This clears the environment so that we only see relevant information in our environment once we start coding. 
+
+# libraries to use
+```{r}
+library(dplyr)
+library(ggplot2)
+library (here)
+library(Hmisc)
+```
+This reads in the libraries that we need in order to correctly show our data
+
+# Read in the data
+```{r}
+Halloween <- read.csv(here("Data", "Halloween_data_PS2.csv"), stringsAsFactors = TRUE)
+```
+Now that the environment has the data set Halloween, we know that the data was successfully read. 
+
+# Look at how R interpreted the data
+```{r}
+summary(Halloween)
+```
+```{r}
+glimpse(Halloween)
+```
+From using summary and glimpse, we can see the types of data that we have and how the data is organized. We can see that there are some errors with the spellings of some costumes and types since there are multiple groups for the same data. We can fix this by editing the names of the data. 
+
+# Edit the faulty data 
+
+Lets rename the types so they are all spelled 'scary' or 'Not scary', 
+```{r}
+scary <- which(Halloween$Type == "scary" | Halloween$Type == "Scary" | Halloween$Type == "scary ")
+Halloween$Type[scary] <- "Scary"
+```
+
+Lets rename the costumes so that they match
+```{r}
+wonder <- which(Halloween$Costume == "wonder woman" | Halloween$Costume == "Wonder woman" | Halloween$Costume == "Wonder Woman")
+Halloween$Costume[wonder] <- "Wonder woman"
+```
+
+```{r}
+clown <- which(Halloween$Costume == "Creepy clown" | Halloween$Costume == "creepy clown" | Halloween$Costume == "clown")
+Halloween$Costume[clown] <- "Creepy clown"
+```
+
+```{r}
+Witch <- which(Halloween$Costume == "Witch" | Halloween$Costume == "witch")
+Halloween$Costume[Witch] <- "Witch"
+```
+Now that the data is edited, we can look back and see if R interpreted these changes by looking back at our summary. 
+
+```{r}
+summary(Halloween)
+```
+We can see that R did interpret the changes correctly. 
+
+# Create a scatterplot for mean candy taken for mean ages with costume types filtered 
+
+```{r}
+ggplot(Halloween, aes(x = age, y = candy_pieces, colour = Type)) +
+  geom_point(size = 3) + 
+  xlab("mean age of kids (years)") +
+  ylab("mean number pieces taken") + 
+  theme_bw()
+```
+From the graph, we can see the not scary and younger kids tended to take less candy than the older kids with scary costumes. 
+
+# Create a histogram for notscary costume ages for children under 10
+First I will create a new data set for the not scary costumes 
+```{r}
+NotScary <- filter(Halloween, Type == "Not scary")
+```
+
+Since not scary is now in the environment, I can tell that the function worked. 
+
+```{r}
+ggplot(NotScary, aes (x = age)) +
+  geom_histogram(binwidth = 2) +
+  xlab("Age of child") +
+  ylab("Number") +
+  xlim(2.75, 12)
+```
+
+From the histogram, we can see that the not scary costume count was highest when the child was about 5 to 7 years old.
+
+
+
+# create boxplot for children's costumes based on age with scary and not scary categories. 
+```{r}
+ggplot(Halloween, aes(x = age, y = Costume)) + 
+  geom_boxplot() +
+  geom_point(size = 4, colour = 'lightgrey', alpha = 0.5) +
+  xlab("Child age (years)") +
+  ylab("Costume choice") +
+  facet_wrap(~Type,) +  
+  theme_bw()
+```
+
+Here, we can see that the costume choices are all on the y axis and the child's age is on the x axis and is split into two types (Scary and Not scary). We can see that the younger children usually choose less scary costumes than the older children and the popularity of each costume based on age. 
+
+
+
+

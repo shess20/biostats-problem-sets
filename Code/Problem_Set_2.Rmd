@@ -77,6 +77,8 @@ ggplot(Halloween, aes(x = age, y = candy_pieces, colour = Type)) +
 ```
 From the graph, we can see the not scary and younger kids tended to take less candy than the older kids with scary costumes. 
 
+To get the graph you need, you should have done a group_by and summarsise in which you then calculated mean candy taken and mean age. 
+
 # Create a histogram for notscary costume ages for children under 10
 First I will create a new data set for the not scary costumes 
 ```{r}
@@ -92,6 +94,8 @@ ggplot(NotScary, aes (x = age)) +
   ylab("Number") +
   xlim(2.75, 12)
 ```
+You were also suppossed to limit to kids age 10 and under. I see that is how it worked out, but your code doesn't ensure it.
+
 
 From the histogram, we can see that the not scary costume count was highest when the child was about 5 to 7 years old.
 
@@ -110,6 +114,6 @@ ggplot(Halloween, aes(x = age, y = Costume)) +
 
 Here, we can see that the costume choices are all on the y axis and the child's age is on the x axis and is split into two types (Scary and Not scary). We can see that the younger children usually choose less scary costumes than the older children and the popularity of each costume based on age. 
 
-
+I can see that you missed one of the "witch" variatons when you fixed the data (it appears twice in fig 3)
 
 
